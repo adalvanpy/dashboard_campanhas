@@ -1,0 +1,9 @@
+# Ignore the secrets.toml file and any .toml files
+.streamlit/secrets.toml
+secrets.toml
+*.toml
+
+# Ignore the .env file if it exists
+.env
+# Ignore the .venv directory if it exists
+.venv/

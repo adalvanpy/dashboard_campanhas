@@ -1,0 +1,179 @@
+# 📊 Dashboard de Tráfego - Meta Ads
+
+Aplicação Streamlit para visualizar e analisar o desempenho de campanhas do Meta Ads em tempo real, com exportação de relatórios em PNG.
+
+---
+
+## 🚀 Instalação Rápida
+
+### 1. Ativar o Ambiente Virtual
+```bash
+.venv\Scripts\Activate.ps1
+```
+
+### 2. Instalar Dependências
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Executar o Dashboard
+```bash
+streamlit run dashboard.py
+```
+
+O dashboard abrirá em `http://localhost:8501`
+
+---
+
+## 🔐 Configuração de Credenciais
+
+### Passo 1: Configurar Permissões e Recursos na Meta
+
+Para que o dashboard funcione corretamente, você precisa solicitar as permissões e recursos apropriados:
+
+#### 📋 Permissões Necessárias
+1. Acesse [Meta for Developers](https://developers.facebook.com/) 
+2. Vá a **Painel de Apps > Análise do App > Permissões e Recursos**
+3. Solicite as seguintes permissões:
+   - ✅ `ads_read` - Para ler dados das campanhas
+   - ✅ `ads_management` - Para gerenciar anúncios
+
+#### 🔧 Recursos Necessários
+1. Na mesma seção de **Permissões e Recursos**
+2. Solicite o recurso:
+   - ✅ **Acesso Padrão ao Gerenciamento de Anúncios** - Necessário para acessar `insights` das campanhas
+
+⚠️ **Importante:**
+- Se o app gerencia **apenas sua própria conta**: Use acesso padrão + `ads_read` + `ads_management`
+- Se o app gerencia **contas de outras pessoas**: Solicite acesso avançado
+
+Para mais detalhes, consulte [Permissões para Apps de Empresa](https://developers.facebook.com/docs/permissions/reference/business-apps)
+
+### Passo 2: Obter App ID e App Secret
+### Passo 2: Obter App ID e App Secret
+1. Acesse [Meta for Developers](https://developers.facebook.com/)
+2. Selecione ou crie uma aplicação
+3. Vá a **Settings → Basic**
+4. Copie o **App ID** e **App Secret**
+5. Edite o arquivo `.streamlit/secrets.toml`:
+```toml
+META_APP_ID = "SEU_APP_ID"
+META_APP_SECRET = "SEU_APP_SECRET"
+```
+
+### Passo 3: Gerar Access Token Temporário (no Dashboard)
+1. Acesse o [Graph API Explorer](https://developers.facebook.com/tools/explorer/)
+2. Marque as permissões:
+   - `ads_read`
+   - `ads_management`
+3. Clique em **Gerar Token de Acesso**
+4. Copie o token gerado (valor que começa com "EA...")
+
+### Passo 4: Obter Ad Account ID
+1. Acesse o [Gerenciador de Anúncios](https://www.facebook.com/adsmanager/)
+2. Vá a **Configurações da Conta**
+3. Procure por **Ad Account ID** (começa com "act_")
+
+---
+
+## 💻 Como Usar o Dashboard
+
+### Primeira Utilização
+1. Abra o dashboard (`streamlit run dashboard.py`)
+2. No menu lateral (🔑), cole seu **Access Token Temporário**
+3. Digite seu **Ad Account ID**
+4. Clique em **🚀 Validar Acesso**
+5. O dashboard converte para token de 60 dias automaticamente
+
+### Nas Próximas Vezes
+- O dashboard mantém o token salvo
+- Basta recarregar a página
+- Clique em **🔄 Usar outra conta** para trocar de conta
+
+---
+
+## 📁 Estrutura do Projeto
+
+```
+dashboard_trafego/
+├── dashboard.py           # Aplicação principal Streamlit
+├── ads_api.py            # Integração com Meta Ads API
+├── report_image.py       # Geração de relatórios em PNG
+├── report_storage.py     # Gerenciamento de arquivos de relatório
+├── requirements.txt      # Dependências do projeto
+├── .streamlit/
+│   └── secrets.toml      # Credenciais (NÃO compartilhar!)
+├── reports_salvos/       # Relatórios gerados (.png)
+└── logo.png, logob.png   # Imagens de marca
+```
+
+---
+
+## 📊 Funcionalidades
+
+✅ **Dados em Tempo Real** - Integração com Meta Ads API  
+✅ **KPIs Principais** - Investimento, Leads, Cliques, CTR  
+✅ **Gráficos Dinâmicos** - Análise visual de campanhas  
+✅ **Exportação PNG** - Relatórios 9:16 para redes sociais  
+✅ **Upload CSV** - Alternativa se não quiser usar API  
+✅ **Armazenamento** - Salva relatórios gerados  
+
+---
+
+## 📋 Métricas Disponíveis
+
+| Métrica | Descrição |
+|---------|-----------|
+| 💸 Investimento | Valor gasto em R$ (BRL) |
+| 🎯 Leads | Conversões/resultados |
+| 🖱️ Cliques | Cliques no link |
+| 📈 Impressões | Vezes que o anúncio foi visto |
+| 📊 Alcance | Pessoas únicas alcançadas |
+| 💰 CPL | Custo por Lead |
+| 🔄 CTR | Taxa de Cliques |
+
+---
+
+## 🔒 Segurança
+
+⚠️ **IMPORTANTE:**
+- Nunca compartilhe seu **App Secret** ou **Access Token**
+- Use variáveis de ambiente ou `.streamlit/secrets.toml`
+- O arquivo `secrets.toml` está no `.gitignore` (não será enviado ao Git)
+- Tokens temporários expiram (renove via Graph API Explorer)
+- Tokens de longa duração (60 dias) são gerados automaticamente
+
+---
+
+## 🛠️ Tecnologias
+
+- **Streamlit** - Interface interativa
+- **Pandas** - Processamento de dados
+- **Plotly** - Gráficos interativos
+- **Pillow + Kaleido** - Geração de imagens
+- **Meta Graph API v18.0** - Dados de campanhas
+
+---
+
+## 📘 Meta Ads – Documentação Adicional
+
+📖 [Meta Marketing API](https://developers.facebook.com/docs/marketing-api/)  
+📖 [Graph API Explorer](https://developers.facebook.com/tools/explorer/)  
+📖 [Permissões de Anúncios](https://developers.facebook.com/docs/permissions/reference/)  
+
+---
+
+## ❓ Troubleshooting
+
+### ❌ "Erro ao renovar token"
+**Solução:** Verifique se `META_APP_ID` e `META_APP_SECRET` no `.streamlit/secrets.toml` estão corretos
+
+### ❌ "Cannot convert float NaN to integer"
+**Solução:** Algumas campanhas podem ter dados ausentes. O dashboard agora trata automaticamente
+
+### ❌ "Certifica-te que os ficheiros..."
+**Solução:** Certifique-se que `ads_api.py`, `report_image.py` e `report_storage.py` estão na mesma pasta
+
+---
+
+**Desenvolvido para monitorar campanhas Meta Ads de forma prática e visual!** 🎯
